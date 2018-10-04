@@ -23,10 +23,10 @@ public class JourneyService {
   public void finishJouney(String cardNumber){}
 
     /**
-     * Call when a commuter getOn the bus
+     * Add item to journeyList
      * @param journey item to add to the list
      */
-  public void addToList(Journey journey){}
+  private void addToList(Journey journey){}
 
     /**
      * Call when a commuter getOn the bus
