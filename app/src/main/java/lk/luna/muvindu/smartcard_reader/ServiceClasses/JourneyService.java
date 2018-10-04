@@ -16,8 +16,11 @@ public class JourneyService {
      */
   public void newJourney(String cardNumber){}
 
+
+
     /**
      * Call when a commuter finish the journey
+
      * @param cardNumber read from the cardReader
      */
   public void finishJouney(String cardNumber){}
@@ -33,4 +36,14 @@ public class JourneyService {
      * @param cardNumber item to search in the list
      */
   private Journey findInList(String cardNumber){ return null;}
+
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
 }

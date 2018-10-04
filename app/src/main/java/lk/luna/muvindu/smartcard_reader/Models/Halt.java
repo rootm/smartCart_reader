@@ -1,8 +1,12 @@
 package lk.luna.muvindu.smartcard_reader.Models;
 
 public class Halt {
+    private String stationId;
     private String name;
     private String location;
+
+
+
     private int index;
 
 
@@ -32,5 +36,13 @@ public class Halt {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getStationId() {
+        return stationId;
+    }
+
+    public void setStationId(String stationId) {
+        this.stationId = stationId;
     }
 }
