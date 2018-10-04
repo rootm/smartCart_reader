@@ -14,7 +14,9 @@ public class JourneyService {
      * Call when a commuter getOn the bus
      * @param cardNumber read from the cardReader
      */
-  public void newJourney(String cardNumber){}
+  public void newJourney(String cardNumber){
+
+  }
 
 
 

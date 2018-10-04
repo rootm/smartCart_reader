@@ -40,7 +40,7 @@ public class SelectionMenu extends AppCompatActivity {
     private ApiService apiService=new ApiService();
     private ArrayList<Route> routeList=new ArrayList<>();
     private ArrayList<Bus> busList=new ArrayList<>();
-    private static String DEFAULT_API_ROOT="https://ticketing-api.herokuapp.com/";
+    public static String DEFAULT_API_ROOT="https://ticketing-api.herokuapp.com/";
     private LinearLayout layout;
     private ArrayList<String> routeNames=new ArrayList<>();
     private ArrayList<String> busNames=new ArrayList<>();
