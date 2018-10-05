@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "1013946818928",
+    "firebase_url": "https://csse-realtime.firebaseio.com",
+    "project_id": "csse-realtime",
+    "storage_bucket": "csse-realtime.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013946818928:android:14edfa1c26c35592",
+        "android_client_info": {
+          "package_name": "lk.luna.muvindu.smartcard_reader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013946818928-kgu4b05v16ng9hc8fnmpmcoc8jrh1dtt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkUU5mzk7TnyDGkuh_-ayFwwCuX01kP70"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013946818928:android:910f1bea2c1ee612",
+        "android_client_info": {
+          "package_name": "lk.luna.muvindu.ticketingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013946818928-kgu4b05v16ng9hc8fnmpmcoc8jrh1dtt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkUU5mzk7TnyDGkuh_-ayFwwCuX01kP70"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

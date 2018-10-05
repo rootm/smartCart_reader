@@ -2,13 +2,16 @@ package lk.luna.muvindu.smartcard_reader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.SoundEffectConstants;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +20,18 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import be.appfoundry.nfclibrary.activities.NfcActivity;
 import lk.luna.muvindu.smartcard_reader.Models.Bus;
 import lk.luna.muvindu.smartcard_reader.Models.Card;
+import lk.luna.muvindu.smartcard_reader.Models.Journey;
 import lk.luna.muvindu.smartcard_reader.Models.Route;
 import lk.luna.muvindu.smartcard_reader.ServiceClasses.ApiService;
 import lk.luna.muvindu.smartcard_reader.ServiceClasses.JourneyService;
+import lk.luna.muvindu.smartcard_reader.ServiceClasses.SimulationService;
+import lk.luna.muvindu.smartcard_reader.ServiceClasses.Utils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -34,14 +42,15 @@ import static lk.luna.muvindu.smartcard_reader.SelectionMenu.DEFAULT_API_ROOT;
 import static lk.luna.muvindu.smartcard_reader.SelectionMenu.Halts;
 import static lk.luna.muvindu.smartcard_reader.SelectionMenu.journeyService;
 import static lk.luna.muvindu.smartcard_reader.SelectionMenu.selectedRoute;
+import static lk.luna.muvindu.smartcard_reader.ServiceClasses.SimulationService.Current_station;
 
 public class MainUI extends NfcActivity {
     public static boolean journeyStatus=false;
     private ApiService apiService=new ApiService();
     private AudioManager audioManager;
     private TextView next,previous,current,pass_Status;
-
-
+    private SimulationService simulationService=new SimulationService();
+    private Utils utils=new Utils();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +63,8 @@ public class MainUI extends NfcActivity {
         next.setText(Halts.get(journeyService.getRoute().getHaltList().get(2)));
         current.setText(Halts.get(journeyService.getRoute().getHaltList().get(1)));
 
+        Toast.makeText(getBaseContext(),"Simulation",Toast.LENGTH_SHORT).show();
+        simulationService.change(next,previous,current);
 
 
     }
@@ -64,9 +75,18 @@ public class MainUI extends NfcActivity {
         for (String message : getNfcMessages()){
 
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            pass_Status.setText(".........");
             audioManager.playSoundEffect(SoundEffectConstants.CLICK,1F);
-            getCardDetails(message.replace("en",""));
+            pass_Status.setText("...............");
 
+          if(! journeyService.ListContains(message.replace("en",""))) {
+              getCardDetails(message.replace("en", ""));
+
+          }else{
+              pass_Status.setText("Journey End");
+              resetpassText();
+              journeyService.finishJouney(message.replace("en", ""));
+          }
         }
     }
 
@@ -113,7 +133,14 @@ public class MainUI extends NfcActivity {
                             @Override
                             public void run() {
                                 if(!(card.getBalance() < journeyService.getRoute().getCost())){
+                                    Journey jn=new Journey();
                                     pass_Status.setText("Valid Pass");
+                                    jn.setOnBoard(Current_station);
+                                    jn.setRoute(journeyService.getRoute().getRouteName());
+                                    jn.setOnBoardTime(utils.currentTime());
+                                    jn.setRouteNo(String.valueOf(journeyService.getRoute().getRouteId()));
+                                    journeyService.newJourney(card.getCardNumber(),jn);
+                                    resetpassText();
                                 }
                             }
                         });
@@ -121,9 +148,11 @@ public class MainUI extends NfcActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                //if(!(card.getBalance() < journeyService.getRoute().getCost())){
+                                    pass_Status.setTextColor(Color.parseColor("#e74c3c"));
                                     pass_Status.setText("Invalid Pass");
-                                //}
+                                pass_Status.setTextColor(Color.RED);
+                                    resetpassText();
+
                             }
                         });
                     }
@@ -142,5 +171,22 @@ public class MainUI extends NfcActivity {
 
     }
 
+    private void resetpassText(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pass_Status.setTextColor(Color.parseColor("#2ecc71"));
+                pass_Status.setText("...............");
+            }
+        }, 2500);
 
+
+
+    }
+
+
+    public void startSim(View view) {
+        simulationService.change(next,previous,current);
+    }
 }
